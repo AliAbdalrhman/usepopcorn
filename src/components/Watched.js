@@ -1,4 +1,5 @@
 import { useState } from "react";
+import StarRating from "./StarRating";
 
 const tempWatchedData = [
   {
@@ -84,6 +85,7 @@ export function WatchedList({ watched }) {
       {watched.map((movie) => (
         <WatchedMovie movie={movie} key={movie.imdbID} />
       ))}
+      <StarRating />
     </ul>
   );
 }
