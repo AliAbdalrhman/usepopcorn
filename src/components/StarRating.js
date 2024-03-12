@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { PropTypes } from "prop-types";
 
-const containerStyle = { display: "flex", alignItems: "center", gap: "16px" };
+const containerStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "16px",
+};
 
 const starContainerStyle = { display: "flex" };
 

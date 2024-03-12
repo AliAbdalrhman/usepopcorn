@@ -1,6 +1,7 @@
 import { useState } from "react";
+import App from "../App.js";
 
-export function ListBox({ movies }) {
+export function ListBox({ movies, isLoading }) {
   const [isOpen1, setIsOpen1] = useState(true);
   return (
     <div className="box">
@@ -10,7 +11,7 @@ export function ListBox({ movies }) {
       >
         {isOpen1 ? "–" : "+"}
       </button>
-      {isOpen1 && <MovieList movies={movies} />}
+      {isLoading ? <Loader /> : isOpen1 && <MovieList movies={movies} />}
     </div>
   );
 }
@@ -38,4 +39,8 @@ export function Movie({ movie }) {
       </div>
     </li>
   );
+}
+
+function Loader() {
+  return <p className="loader">Loading...</p>;
 }
