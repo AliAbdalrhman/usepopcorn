@@ -1,7 +1,6 @@
 import { useState } from "react";
-import App from "../App.js";
 
-export function ListBox({ movies, isLoading }) {
+export function ListBox({ movies, isLoading, error }) {
   const [isOpen1, setIsOpen1] = useState(true);
   return (
     <div className="box">
@@ -11,7 +10,10 @@ export function ListBox({ movies, isLoading }) {
       >
         {isOpen1 ? "–" : "+"}
       </button>
-      {isLoading ? <Loader /> : isOpen1 && <MovieList movies={movies} />}
+      {/* {isLoading ? <Loader /> : isOpen1 && <MovieList movies={movies} />} */}
+      {isLoading && <Loader />}
+      {!isLoading && !error && <MovieList movies={movies} />}
+      {error && <ErrorMessage message={error} />}
     </div>
   );
 }
@@ -43,4 +45,8 @@ export function Movie({ movie }) {
 
 function Loader() {
   return <p className="loader">Loading...</p>;
+}
+
+function ErrorMessage({ message }) {
+  return <p className="error">{message}</p>;
 }

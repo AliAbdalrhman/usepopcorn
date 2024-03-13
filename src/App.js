@@ -31,17 +31,28 @@ const key = "b29c79a2";
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const query = "interstellar";
 
   useEffect(function () {
     async function fetchMovies() {
-      setIsLoading(true);
-      const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${key}&s=${query}`
-      );
-      const data = await res.json();
-      setMovies(data.Search);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${key}&s=${query}`
+        );
+        if (!res.ok)
+          throw new Error("Something went wrong with fetching movies");
+
+        const data = await res.json();
+        if (data.Response === "False") throw new Error("Movie Not Found");
+
+        setMovies(data.Search);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
     }
     fetchMovies();
   }, []);
@@ -49,7 +60,7 @@ export default function App() {
   return (
     <>
       <NavBar movies={movies} />
-      <Main movies={movies} isLoading={isLoading} />
+      <Main movies={movies} isLoading={isLoading} error={error} />
     </>
   );
 }
