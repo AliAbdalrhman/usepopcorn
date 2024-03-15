@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function ListBox({ movies, isLoading, error }) {
+export function ListBox({ movies, isLoading, error, onSelectMovie }) {
   const [isOpen1, setIsOpen1] = useState(true);
   return (
     <div className="box">
@@ -12,25 +12,31 @@ export function ListBox({ movies, isLoading, error }) {
       </button>
       {/* {isLoading ? <Loader /> : isOpen1 && <MovieList movies={movies} />} */}
       {isLoading && <Loader />}
-      {!isLoading && !error && <MovieList movies={movies} />}
+      {!isLoading && !error && (
+        <MovieList movies={movies} onSelectMovie={onSelectMovie} />
+      )}
       {error && <ErrorMessage message={error} />}
     </div>
   );
 }
 
-export function MovieList({ movies }) {
+export function MovieList({ movies, onSelectMovie }) {
   return (
-    <ul className="list">
+    <ul className="list list-movies">
       {movies?.map((movie) => (
-        <Movie movie={movie} key={movie.imdbID} />
+        <Movie
+          movie={movie}
+          key={movie.imdbID}
+          onSelectedMovie={onSelectMovie}
+        />
       ))}
     </ul>
   );
 }
 
-export function Movie({ movie }) {
+export function Movie({ movie, onSelectedMovie }) {
   return (
-    <li>
+    <li onClick={() => onSelectedMovie(movie.imdbID)}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
@@ -43,7 +49,7 @@ export function Movie({ movie }) {
   );
 }
 
-function Loader() {
+export function Loader() {
   return <p className="loader">Loading...</p>;
 }
 

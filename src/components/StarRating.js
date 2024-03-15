@@ -4,7 +4,7 @@ import { PropTypes } from "prop-types";
 const containerStyle = {
   display: "flex",
   alignItems: "center",
-  justifyContent: "center",
+  // justifyContent: "center",
   gap: "16px",
 };
 
@@ -19,7 +19,7 @@ StarRating.propTypes = {
 };
 
 export default function StarRating({
-  maxRating = 5,
+  maxRating = 10,
   color = "#fcc419",
   size = 32,
   messages = [],

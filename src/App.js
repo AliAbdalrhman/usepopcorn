@@ -33,7 +33,15 @@ export default function App() {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const tempQuery = "interstellar";
+  const [selectedId, setSelectedId] = useState(null);
+
+  function handleSelectedMovie(id) {
+    setSelectedId((selectedId) => (id === selectedId ? null : id));
+  }
+
+  function handleCloseMovie() {
+    setSelectedId(null);
+  }
 
   useEffect(
     function () {
@@ -59,7 +67,7 @@ export default function App() {
         }
       }
 
-      if (query < 0) {
+      if (query < 3) {
         setMovies([]);
         setError("");
         return;
@@ -73,7 +81,14 @@ export default function App() {
   return (
     <>
       <NavBar movies={movies} query={query} setQuery={setQuery} />
-      <Main movies={movies} isLoading={isLoading} error={error} />
+      <Main
+        movies={movies}
+        isLoading={isLoading}
+        error={error}
+        selectedId={selectedId}
+        onSelectMovie={handleSelectedMovie}
+        onCloseMovie={handleCloseMovie}
+      />
     </>
   );
 }
