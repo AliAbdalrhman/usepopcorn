@@ -6,7 +6,11 @@ const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 export function WatchedBox({ selectedId, onCloseMovie }) {
-  const [watched, setWatched] = useState([]);
+  // const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(function () {
+    const storedValue = localStorage.getItem("watched");
+    return JSON.parse(storedValue);
+  });
   const [isOpen2, setIsOpen2] = useState(true);
 
   function handleAddWatched(movie) {
@@ -16,6 +20,13 @@ export function WatchedBox({ selectedId, onCloseMovie }) {
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID != id));
   }
+
+  useEffect(
+    function () {
+      localStorage.setItem("watched", JSON.stringify(watched));
+    },
+    [watched]
+  );
 
   return (
     <div className="box">
